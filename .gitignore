@@ -1,0 +1,5 @@
+*
+./docker-compose.yaml
+./setup.nu
+./freaky-cobblemon-x-create.mrpack
+./.gitignore

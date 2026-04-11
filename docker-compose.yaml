@@ -1,0 +1,49 @@
+services:
+    server:
+        build:
+            context: https://github.com/itzg/docker-minecraft-server.git
+            args:
+                BASE_IMAGE: docker.io/azul/zulu-openjdk-alpine:21-jre
+        pull_policy: build
+        tty: true
+        stdin_open: true
+        ports:
+            - "25565:25565"
+            - "25575:25575"
+        environment:
+            EULA: "TRUE"
+            TYPE: "MODRINTH"
+            ENABLE_RCON: "true"
+            RCON_PASSWORD: ${RCON_PASSWORD}
+            MODRINTH_MODPACK: "/modpack/freaky-cobblemon-x-create.mrpack"
+            MEMORY: 8G
+            INIT_MEMORY: 4G
+            USE_MEOWICE_FLAGS: "true"
+            MODRINTH_FORCE_SYNCHRONIZE: "true"
+            MODRINTH_EXCLUDE_FILES: |
+                forgematica
+                mafglib
+                better-clouds
+                tweakerge
+                catchindicator
+                guideme
+                dndesires
+        volumes:
+            - ./data:/data:z
+            - ./freaky-cobblemon-x-create.mrpack:/modpack/freaky-cobblemon-x-create.mrpack:ro,z
+
+    backup:
+        image: docker.io/itzg/mc-backup:latest
+        restart: unless-stopped
+        environment:
+            BACKUP_INTERVAL: "6h"
+            PRUNE_BACKUPS_DAYS: 7
+            RCON_HOST: server
+            RCON_PORT: 25575
+            RCON_PASSWORD: ${RCON_PASSWORD}
+            LINK_LATEST: true
+            TAR_COMPRESS_METHOD: zstd
+            INITIAL_DELAY: "5m"
+        volumes:
+            - ./data:/data:ro
+            - ./backups:/backups:z
