@@ -19,7 +19,6 @@ services:
             MEMORY: 8G
             INIT_MEMORY: 4G
             USE_MEOWICE_FLAGS: "true"
-            USE_MEOWICE_GRAALVM_FLAGS: "true"
             MODRINTH_FORCE_SYNCHRONIZE: "true"
             MODRINTH_EXCLUDE_FILES: |
                 forgematica
