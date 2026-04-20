@@ -3,7 +3,7 @@ services:
         build:
             context: https://github.com/itzg/docker-minecraft-server.git
             args:
-                BASE_IMAGE: ghcr.io/graalvm/graalvm-community:21
+                BASE_IMAGE: docker.io/azul/zulu-openjdk-alpine:21-jre
         pull_policy: build
         tty: true
         stdin_open: true
